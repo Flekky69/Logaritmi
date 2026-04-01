@@ -1,6 +1,6 @@
 # 📚 Logaritmi — 100 Flashcard Interattive
 
-App web di ripasso per il **Capitolo 10 – Logaritmi** di *Matematica.blu 2.0, Vol. 3* (Zanichelli).  
+App web di ripasso per i **Logaritmi** .  
 Destinata agli studenti di **Terza Liceo Scientifico**.
 
 🔗 **Demo live:** `https://<tuo-username>.github.io/logaritmi-flashcards/`
