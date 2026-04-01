@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logaritmi — 100 Flashcard | Matematica.blu 2.0 · Cap. 10</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+/* ── RESET & TOKENS ─────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:      #0D1B3E;
+  --navy-l:    #132244;
+  --navy-ll:   #1A2B55;
+  --blue:      #1A6FAB;
+  --teal:      #0891B2;
+  --teal-d:    #0672911f;
+  --gold:      #F5A623;
+  --gold-d:    #C27F1A;
+  --mint:      #2DD4BF;
+  --mint-d:    #0F9E8C;
+  --white:     #FFFFFF;
+  --off-white: #E8EEF6;
+  --gray:      #7A8BAD;
+  --card-bg:   #162040;
+  --card-bd:   #1E3560;
+
+  --cat-teoria:      #0891B2;
+  --cat-esercizio:   #2DD4BF;
+  --cat-ragionamento:#F5A623;
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    'Source Sans 3', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Courier New', monospace;
+
+  --card-w: min(680px, 96vw);
+  --card-h: 420px;
+  --radius: 18px;
+}
+
+html { height: 100%; }
+
+body {
+  min-height: 100%;
+  background: var(--navy);
+  font-family: var(--font-body);
+  color: var(--off-white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 60px;
+
+  /* subtle mesh background */
+  background-image:
+    radial-gradient(ellipse 80% 60% at 15% 10%, rgba(8,145,178,0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 85% 90%, rgba(245,166,35,0.07) 0%, transparent 60%);
+}
+
+/* ── HEADER ─────────────────────────────────────────── */
+header {
+  width: 100%;
+  padding: 28px 32px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--card-bd);
+}
+
+.header-left { display: flex; flex-direction: column; gap: 2px; }
+
+.header-logo {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--white);
+  letter-spacing: -0.3px;
+}
+
+.header-sub {
+  font-size: 12px;
+  color: var(--gray);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.header-badge {
+  background: var(--gold);
+  color: var(--navy);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* ── TOOLBAR ─────────────────────────────────────────── */
+.toolbar {
+  width: 100%;
+  max-width: 900px;
+  padding: 24px 24px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.filter-group {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.filter-btn {
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1.5px solid var(--card-bd);
+  background: transparent;
+  color: var(--gray);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+  letter-spacing: 0.3px;
+}
+.filter-btn:hover { border-color: var(--teal); color: var(--teal); }
+.filter-btn.active {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: var(--white);
+}
+.filter-btn[data-cat="teoria"].active        { background: var(--cat-teoria); border-color: var(--cat-teoria); }
+.filter-btn[data-cat="esercizio"].active     { background: var(--cat-esercizio); border-color: var(--cat-esercizio); color: var(--navy); }
+.filter-btn[data-cat="ragionamento"].active  { background: var(--cat-ragionamento); border-color: var(--cat-ragionamento); color: var(--navy); }
+
+/* ── SEARCH ─────────────────────────────────────────── */
+.search-wrap {
+  position: relative;
+  width: min(340px, 90vw);
+}
+.search-wrap input {
+  width: 100%;
+  padding: 8px 36px 8px 14px;
+  border-radius: 20px;
+  border: 1.5px solid var(--card-bd);
+  background: var(--card-bg);
+  color: var(--off-white);
+  font-family: var(--font-body);
+  font-size: 13px;
+  outline: none;
+  transition: border-color .2s;
+}
+.search-wrap input::placeholder { color: var(--gray); }
+.search-wrap input:focus { border-color: var(--teal); }
+.search-wrap .icon {
+  position: absolute;
+  right: 12px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--gray);
+  font-size: 14px;
+  pointer-events: none;
+}
+
+/* ── STATS BAR ───────────────────────────────────────── */
+.stats-bar {
+  width: 100%;
+  max-width: 900px;
+  padding: 0 24px 12px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--gray);
+}
+.stats-count { font-weight: 600; color: var(--teal); }
+.stats-progress {
+  flex: 1 1 200px;
+  height: 4px;
+  background: var(--card-bd);
+  border-radius: 2px;
+  overflow: hidden;
+  min-width: 100px;
+}
+.stats-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--teal), var(--mint));
+  border-radius: 2px;
+  transition: width .4s ease;
+}
+
+/* ── CARD STAGE ──────────────────────────────────────── */
+.stage {
+  perspective: 1400px;
+  width: var(--card-w);
+  height: var(--card-h);
+  margin: 10px 0 20px;
+  cursor: pointer;
+}
+
+.card-flip {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(.4,0,.2,1);
+}
+.card-flip.flipped { transform: rotateY(180deg); }
+
+.card-face {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* FRONT */
+.card-front {
+  background: var(--card-bg);
+  border: 1px solid var(--card-bd);
+  box-shadow: 0 20px 60px rgba(0,0,0,.45), 0 4px 16px rgba(0,0,0,.3);
+}
+
+/* accent strip top */
+.card-front::before {
+  content: '';
+  display: block;
+  height: 5px;
+  background: linear-gradient(90deg, var(--teal), var(--mint));
+  border-radius: var(--radius) var(--radius) 0 0;
+  flex-shrink: 0;
+}
+
+/* BACK */
+.card-back {
+  background: linear-gradient(145deg, #091225 0%, #0D1B3E 60%, #132244 100%);
+  border: 1px solid var(--card-bd);
+  box-shadow: 0 20px 60px rgba(0,0,0,.45), 0 4px 16px rgba(0,0,0,.3);
+  transform: rotateY(180deg);
+}
+
+.card-back::before {
+  content: '';
+  display: block;
+  height: 5px;
+  background: linear-gradient(90deg, var(--gold), #FFD080);
+  border-radius: var(--radius) var(--radius) 0 0;
+  flex-shrink: 0;
+}
+
+/* card header row */
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px 8px;
+  flex-shrink: 0;
+}
+
+.card-id {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--gray);
+  letter-spacing: 1px;
+}
+
+.card-topic {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--gray);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.cat-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.cat-badge.teoria        { background: rgba(8,145,178,.2);   color: var(--teal); }
+.cat-badge.esercizio     { background: rgba(45,212,191,.15); color: var(--mint); }
+.cat-badge.ragionamento  { background: rgba(245,166,35,.15); color: var(--gold); }
+
+/* card body */
+.card-body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 28px 12px;
+  text-align: center;
+  overflow-y: auto;
+}
+
+.card-question {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--off-white);
+}
+
+.card-question em {
+  font-style: italic;
+  color: var(--mint);
+}
+
+.card-answer {
+  font-family: var(--font-body);
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: var(--off-white);
+  text-align: left;
+}
+
+.card-answer strong { color: var(--gold); font-weight: 600; }
+.card-answer em { color: var(--mint); font-style: italic; }
+
+/* card footer */
+.card-footer {
+  padding: 8px 20px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.flip-hint {
+  font-size: 11px;
+  color: var(--gray);
+  letter-spacing: 0.4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.flip-hint svg { opacity: .5; }
+
+.answer-label {
+  font-size: 11px;
+  color: var(--gold);
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ── NAVIGATION ──────────────────────────────────────── */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.nav-btn {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: 1.5px solid var(--card-bd);
+  background: var(--card-bg);
+  color: var(--off-white);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .2s;
+}
+.nav-btn:hover:not(:disabled) {
+  border-color: var(--teal);
+  color: var(--teal);
+  background: rgba(8,145,178,.08);
+}
+.nav-btn:disabled { opacity: .3; cursor: default; }
+
+.nav-counter {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--gray);
+  min-width: 80px;
+  text-align: center;
+}
+.nav-counter .cur { color: var(--white); font-weight: 600; font-size: 16px; }
+
+/* ── SHUFFLE + RESET BUTTONS ─────────────────────────── */
+.action-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.action-btn {
+  padding: 9px 22px;
+  border-radius: 22px;
+  border: 1.5px solid var(--card-bd);
+  background: transparent;
+  color: var(--gray);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+  display: flex; align-items: center; gap: 7px;
+}
+.action-btn:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+.action-btn.primary {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: var(--white);
+}
+.action-btn.primary:hover {
+  background: var(--mint-d);
+  border-color: var(--mint-d);
+  color: var(--white);
+}
+
+/* ── INDEX GRID ──────────────────────────────────────── */
+.section-toggle {
+  display: flex;
+  gap: 8px;
+  margin: 0 24px 20px;
+  justify-content: center;
+}
+
+.toggle-btn {
+  padding: 7px 20px;
+  border-radius: 20px;
+  border: 1.5px solid var(--card-bd);
+  background: transparent;
+  color: var(--gray);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.toggle-btn.active {
+  background: var(--navy-ll);
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+.index-grid {
+  display: none;
+  width: 100%;
+  max-width: 900px;
+  padding: 0 20px 20px;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 8px;
+}
+.index-grid.visible { display: grid; }
+
+.index-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-bd);
+  border-radius: 10px;
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: all .2s;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.index-card:hover {
+  border-color: var(--teal);
+  background: var(--navy-ll);
+}
+.index-card.current {
+  border-color: var(--gold);
+  background: rgba(245,166,35,.08);
+}
+.index-card-id {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--gray);
+  letter-spacing: 0.8px;
+}
+.index-card-topic {
+  font-size: 11px;
+  color: var(--off-white);
+  line-height: 1.3;
+}
+.index-card-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  margin-top: 4px;
+}
+.index-card-dot.teoria        { background: var(--cat-teoria); }
+.index-card-dot.esercizio     { background: var(--cat-esercizio); }
+.index-card-dot.ragionamento  { background: var(--cat-ragionamento); }
+
+/* ── KEYBOARD HINT ───────────────────────────────────── */
+.keyboard-hint {
+  font-size: 11px;
+  color: var(--gray);
+  text-align: center;
+  padding: 0 20px 6px;
+  letter-spacing: 0.3px;
+}
+.keyboard-hint kbd {
+  background: var(--card-bg);
+  border: 1px solid var(--card-bd);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--teal);
+}
+
+/* ── EMPTY STATE ─────────────────────────────────────── */
+.empty-state {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 40px 24px;
+  color: var(--gray);
+  text-align: center;
+}
+.empty-state.visible { display: flex; }
+.empty-icon { font-size: 40px; }
+
+/* ── CATEGORY LEGEND ─────────────────────────────────── */
+.legend {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0 20px 20px;
+  font-size: 12px;
+  color: var(--gray);
+}
+.legend-item { display: flex; align-items: center; gap: 6px; }
+.legend-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────── */
+@media (max-width: 600px) {
+  :root { --card-h: 380px; }
+  header { padding: 18px 20px 14px; }
+  .header-logo { font-size: 18px; }
+  .card-question { font-size: 15px; }
+  .card-answer   { font-size: 14px; }
+  .card-body { padding: 12px 18px 10px; }
+}
+
+/* ── ANIMATIONS ──────────────────────────────────────── */
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.stage { animation: fadeSlideIn .35s ease both; }
+
+/* transition between cards */
+.stage.changing {
+  animation: none;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .15s, transform .15s;
+}
+.stage.entering {
+  animation: fadeSlideIn .3s ease both;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-left">
+    <span class="header-logo">Logaritmi</span>
+    <span class="header-sub">Matematica.blu 2.0 · Cap. 10 · Terza Liceo Scientifico</span>
+  </div>
+  <span class="header-badge">100 flashcard</span>
+</header>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="filter-group" id="filterGroup">
+    <button class="filter-btn active" data-cat="all">Tutte (100)</button>
+    <button class="filter-btn" data-cat="teoria">Teoria (40)</button>
+    <button class="filter-btn" data-cat="esercizio">Esercizi (40)</button>
+    <button class="filter-btn" data-cat="ragionamento">Ragionamento (20)</button>
+  </div>
+  <div class="search-wrap">
+    <input type="text" id="searchInput" placeholder="Cerca per argomento…" autocomplete="off">
+    <span class="icon">⌕</span>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <span>Vista: <strong class="stats-count" id="statsCount">100</strong> schede</span>
+  <div class="stats-progress"><div class="stats-fill" id="statsFill" style="width:0%"></div></div>
+  <span id="statsPos">1 / 100</span>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--cat-teoria)"></div> Teoria</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--cat-esercizio)"></div> Esercizi</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--cat-ragionamento)"></div> Ragionamento</div>
+</div>
+
+<!-- CARD STAGE -->
+<div class="stage" id="stage" role="button" aria-label="Clicca per girare la scheda" tabindex="0">
+  <div class="card-flip" id="cardFlip">
+
+    <!-- FRONT -->
+    <div class="card-face card-front">
+      <div class="card-header">
+        <span class="card-id" id="cardId"></span>
+        <span class="card-topic" id="cardTopic"></span>
+        <span class="cat-badge" id="cardCatBadge"></span>
+      </div>
+      <div class="card-body">
+        <div class="card-question" id="cardQuestion"></div>
+      </div>
+      <div class="card-footer">
+        <span class="flip-hint">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M1 4v6h6"/><path d="M23 20v-6h-6"/>
+            <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4-4.64 4.36A9 9 0 0 1 3.51 15"/>
+          </svg>
+          Clicca o premi Spazio per girare
+        </span>
+      </div>
+    </div>
+
+    <!-- BACK -->
+    <div class="card-face card-back">
+      <div class="card-header">
+        <span class="card-id" id="cardIdBack"></span>
+        <span class="answer-label">Risposta</span>
+        <span class="cat-badge" id="cardCatBadgeBack"></span>
+      </div>
+      <div class="card-body">
+        <div class="card-answer" id="cardAnswer"></div>
+      </div>
+      <div class="card-footer">
+        <span class="flip-hint">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M1 4v6h6"/><path d="M23 20v-6h-6"/>
+            <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4-4.64 4.36A9 9 0 0 1 3.51 15"/>
+          </svg>
+          Premi ← → per navigare
+        </span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- EMPTY STATE -->
+<div class="empty-state" id="emptyState">
+  <div class="empty-icon">🔍</div>
+  <strong>Nessuna scheda trovata</strong>
+  <span>Prova con un termine diverso o rimuovi i filtri.</span>
+</div>
+
+<!-- NAVIGATION -->
+<div class="nav" id="navRow">
+  <button class="nav-btn" id="btnPrev" aria-label="Precedente" title="← Precedente">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="M15 18l-6-6 6-6"/>
+    </svg>
+  </button>
+  <div class="nav-counter">
+    <span class="cur" id="navCur">1</span><span style="color:var(--card-bd)"> / </span><span id="navTot">100</span>
+  </div>
+  <button class="nav-btn" id="btnNext" aria-label="Successiva" title="→ Successiva">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="M9 18l6-6-6-6"/>
+    </svg>
+  </button>
+</div>
+
+<!-- ACTIONS -->
+<div class="action-row">
+  <button class="action-btn primary" id="btnShuffle">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/>
+      <polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/>
+    </svg>
+    Mischia
+  </button>
+  <button class="action-btn" id="btnReset">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <polyline points="1 4 1 10 7 10"/>
+      <path d="M3.51 15a9 9 0 1 0 .49-3.14"/>
+    </svg>
+    Ripristina ordine
+  </button>
+  <button class="action-btn" id="btnFirst">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <polyline points="11 17 6 12 11 7"/><polyline points="18 17 13 12 18 7"/>
+    </svg>
+    Prima scheda
+  </button>
+</div>
+
+<!-- KEYBOARD HINT -->
+<div class="keyboard-hint">
+  <kbd>←</kbd> Precedente &nbsp; <kbd>→</kbd> Successiva &nbsp; <kbd>Space</kbd> Gira &nbsp; <kbd>Esc</kbd> Chiudi indice
+</div>
+
+<!-- SECTION TOGGLE for index -->
+<div class="section-toggle">
+  <button class="toggle-btn" id="btnToggleIndex">☰ Indice schede</button>
+</div>
+
+<!-- INDEX GRID -->
+<div class="index-grid" id="indexGrid"></div>
+
+<!-- SCRIPTS -->
+<script src="flashcards.js"></script>
+<script>
+// ── STATE ──────────────────────────────────────────────
+let deck = [...FLASHCARDS];   // current filtered + sorted deck
+let idx  = 0;
+let flipped = false;
+let filterCat = 'all';
+let searchQuery = '';
+
+// ── DOM REFS ───────────────────────────────────────────
+const stage       = document.getElementById('stage');
+const cardFlip    = document.getElementById('cardFlip');
+const cardId      = document.getElementById('cardId');
+const cardIdBack  = document.getElementById('cardIdBack');
+const cardTopic   = document.getElementById('cardTopic');
+const cardCatBadge     = document.getElementById('cardCatBadge');
+const cardCatBadgeBack = document.getElementById('cardCatBadgeBack');
+const cardQuestion = document.getElementById('cardQuestion');
+const cardAnswer   = document.getElementById('cardAnswer');
+const navCur  = document.getElementById('navCur');
+const navTot  = document.getElementById('navTot');
+const btnPrev = document.getElementById('btnPrev');
+const btnNext = document.getElementById('btnNext');
+const statsCount = document.getElementById('statsCount');
+const statsPos   = document.getElementById('statsPos');
+const statsFill  = document.getElementById('statsFill');
+const navRow     = document.getElementById('navRow');
+const emptyState = document.getElementById('emptyState');
+const indexGrid  = document.getElementById('indexGrid');
+
+const catLabels = { teoria:'Teoria', esercizio:'Esercizio', ragionamento:'Ragionamento' };
+
+// ── RENDER ─────────────────────────────────────────────
+function render() {
+  if (deck.length === 0) {
+    stage.style.display = 'none';
+    navRow.style.display = 'none';
+    emptyState.classList.add('visible');
+    statsCount.textContent = '0';
+    statsPos.textContent = '0 / 0';
+    statsFill.style.width = '0%';
+    renderIndex();
+    return;
+  }
+
+  stage.style.display = '';
+  navRow.style.display = '';
+  emptyState.classList.remove('visible');
+
+  const card = deck[idx];
+  const catLabel = catLabels[card.cat];
+
+  cardId.textContent      = card.id;
+  cardIdBack.textContent  = card.id;
+  cardTopic.textContent   = card.topic;
+
+  cardCatBadge.textContent     = catLabel;
+  cardCatBadgeBack.textContent = catLabel;
+  cardCatBadge.className       = 'cat-badge ' + card.cat;
+  cardCatBadgeBack.className   = 'cat-badge ' + card.cat;
+
+  cardQuestion.innerHTML = card.q;
+  cardAnswer.innerHTML   = card.a;
+
+  // un-flip
+  if (flipped) {
+    flipped = false;
+    cardFlip.classList.remove('flipped');
+  }
+
+  // nav
+  btnPrev.disabled = idx === 0;
+  btnNext.disabled = idx === deck.length - 1;
+  navCur.textContent = idx + 1;
+  navTot.textContent = deck.length;
+
+  // stats
+  statsCount.textContent = deck.length;
+  statsPos.textContent   = `${idx + 1} / ${deck.length}`;
+  statsFill.style.width  = `${((idx + 1) / deck.length) * 100}%`;
+
+  renderIndex();
+}
+
+// ── INDEX ──────────────────────────────────────────────
+function renderIndex() {
+  indexGrid.innerHTML = '';
+  deck.forEach((card, i) => {
+    const el = document.createElement('div');
+    el.className = 'index-card' + (i === idx ? ' current' : '');
+    el.innerHTML = `
+      <div class="index-card-id">${card.id}</div>
+      <div class="index-card-topic">${card.topic}</div>
+      <div class="index-card-dot ${card.cat}"></div>
+    `;
+    el.addEventListener('click', () => { idx = i; render(); });
+    indexGrid.appendChild(el);
+  });
+}
+
+// ── FLIP ───────────────────────────────────────────────
+function flipCard() {
+  flipped = !flipped;
+  cardFlip.classList.toggle('flipped', flipped);
+}
+
+// ── NAVIGATION ─────────────────────────────────────────
+function goNext() {
+  if (idx < deck.length - 1) { idx++; render(); }
+}
+function goPrev() {
+  if (idx > 0) { idx--; render(); }
+}
+
+// ── FILTER ─────────────────────────────────────────────
+function applyFilters() {
+  let base = FLASHCARDS;
+  if (filterCat !== 'all') base = base.filter(c => c.cat === filterCat);
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    base = base.filter(c =>
+      c.topic.toLowerCase().includes(q) ||
+      c.q.toLowerCase().includes(q) ||
+      c.id.toLowerCase().includes(q)
+    );
+  }
+  deck = base;
+  idx  = 0;
+  render();
+}
+
+// ── SHUFFLE ────────────────────────────────────────────
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// ── EVENT LISTENERS ────────────────────────────────────
+stage.addEventListener('click', flipCard);
+stage.addEventListener('keydown', e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); flipCard(); } });
+
+btnPrev.addEventListener('click', goPrev);
+btnNext.addEventListener('click', goNext);
+
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT') return;
+  if (e.key === 'ArrowRight') goNext();
+  else if (e.key === 'ArrowLeft') goPrev();
+  else if (e.key === ' ') { e.preventDefault(); flipCard(); }
+  else if (e.key === 'Escape') { indexGrid.classList.remove('visible'); document.getElementById('btnToggleIndex').classList.remove('active'); }
+});
+
+document.getElementById('filterGroup').addEventListener('click', e => {
+  const btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterCat = btn.dataset.cat;
+  applyFilters();
+});
+
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchQuery = e.target.value.trim();
+  applyFilters();
+});
+
+document.getElementById('btnShuffle').addEventListener('click', () => {
+  deck = shuffle([...deck]);
+  idx = 0;
+  render();
+});
+
+document.getElementById('btnReset').addEventListener('click', () => {
+  filterCat = 'all';
+  searchQuery = '';
+  document.getElementById('searchInput').value = '';
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('.filter-btn[data-cat="all"]').classList.add('active');
+  deck = [...FLASHCARDS];
+  idx  = 0;
+  render();
+});
+
+document.getElementById('btnFirst').addEventListener('click', () => {
+  idx = 0;
+  render();
+});
+
+document.getElementById('btnToggleIndex').addEventListener('click', function() {
+  this.classList.toggle('active');
+  indexGrid.classList.toggle('visible');
+  if (indexGrid.classList.contains('visible')) renderIndex();
+});
+
+// swipe support
+let touchStartX = 0;
+stage.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+stage.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 60) { dx < 0 ? goNext() : goPrev(); }
+  else flipCard();
+}, { passive: true });
+
+// ── INIT ───────────────────────────────────────────────
+render();
+</script>
+</body>
+</html>
